@@ -1,0 +1,63 @@
+{
+  "name": "runner",
+  "version": "0.0.1",
+  "publisher": "mattn",
+  "description": "Run various scripts.",
+  "author": {
+    "name": "Yasuhiro Matsumoto (a.k.a mattn)"
+  },
+  "icon": "images/runner.png",
+  "categories": ["Other"],
+  "license": "MIT",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattn/vscode-runner"
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+  },
+  "dependencies": {
+    "elegant-spinner": "^1.0.1",
+    "error-ex": "^1.3.0",
+    "figures": "^1.4.0",
+    "fix-path": "^1.1.0",
+    "read-pkg-up": "^1.0.1",
+    "semver": "^5.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^1.6.2",
+    "vscode": "0.10.x"
+  },
+  "engines": {
+    "vscode": "0.10.x"
+  },
+  "main": "./out/extension",
+  "extensionDependencies": [],
+  "activationEvents": [
+    "onCommand:extension.runner"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.runner",
+        "title": "Run",
+        "description": "Run this file"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "Ctrl+Shift+r",
+        "command": "extension.runner",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {}
+  },
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/mattn/vscode-runner/issues"
+  }
+}
