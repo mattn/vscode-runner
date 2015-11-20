@@ -16,6 +16,7 @@ const defaultLanguageMap = {
   coffee: "coffee",
   shell: "bash",
   typescript: "tsc",
+  javascript: "node",
   powershell: "powershell -noninteractive -noprofile -c -"
 };
 
