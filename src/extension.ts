@@ -32,7 +32,7 @@ function getActionFor(fileName: string) {
   var ids = Object.keys(extensionMap).sort();
   for (var id in ids) {
     var ext = ids[id];
-    if (fileName.match(ext.match(/^\b/) ? '' : '\\b' + ext + '$')) {
+    if (fileName.match((ext.match(/^\b/) ? '' : '\\b') + ext + '$')) {
       return extensionMap[ext];
     }
   }
