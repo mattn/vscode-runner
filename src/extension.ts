@@ -21,7 +21,7 @@ const defaultLanguageMap = {
 
 function getActionFor(fileName: string) {
   if (!fileName) return;
-  var extensionMap = vscode.workspace.getConfiguration('runner')['extensionMap'];
+  var extensionMap = vscode.workspace.getConfiguration('runner')['extensionMap'] || {};
   var ids = Object.keys(extensionMap).sort();
   for (var id in ids) {
     var ext = ids[id];
@@ -33,10 +33,14 @@ function getActionFor(fileName: string) {
 }
 
 export function activate(ctx: vscode.ExtensionContext): void {
+  var languageMap = {};
+  var userLanguageMap = vscode.workspace.getConfiguration('runner')['languageMap'] || {};
+  for (var key in defaultLanguageMap) { languageMap[key] = defaultLanguageMap[key]; }
+  for (var key in userLanguageMap) { languageMap[key] = userLanguageMap[key]; }
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
     var fileName = vscode.window.activeTextEditor.document.fileName;
     var languageId = vscode.window.activeTextEditor.document.languageId;
-    var action = defaultLanguageMap[languageId];
+    var action = languageMap[languageId];
 	if (!action) action = getActionFor(fileName);
     if (!action) return;
     fileName = path.relative(".", fileName);
