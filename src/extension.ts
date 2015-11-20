@@ -6,6 +6,10 @@ import path = require('path');
 
 const win32 = process.platform === 'win32';
 
+const defaultExtensionMap = {
+  coffee: "coffee"
+}
+
 const defaultLanguageMap = {
   go: "go run",
   perl: "perl",
@@ -13,7 +17,6 @@ const defaultLanguageMap = {
   ruby: "ruby",
   python: "python",
   php: "php",
-  coffee: "coffee",
   shell: "bash",
   typescript: "tsc",
   javascript: "node",
@@ -22,7 +25,10 @@ const defaultLanguageMap = {
 
 function getActionFor(fileName: string) {
   if (!fileName) return;
-  var extensionMap = vscode.workspace.getConfiguration('runner')['extensionMap'] || {};
+  var extensionMap = {};
+  var userExtensionMap = vscode.workspace.getConfiguration('runner')['extensionMap'] || {};
+  for (var key in defaultExtensionMap) { extensionMap[key] = defaultExtensionMap[key]; }
+  for (var key in userExtensionMap) { extensionMap[key] = userExtensionMap[key]; }
   var ids = Object.keys(extensionMap).sort();
   for (var id in ids) {
     var ext = ids[id];

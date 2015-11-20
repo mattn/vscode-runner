@@ -1,13 +1,13 @@
 {
   "name": "Runner",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "mattn",
   "description": "Run various scripts.",
   "author": {
     "name": "Yasuhiro Matsumoto (a.k.a mattn)"
   },
   "icon": "images/runner.png",
-  "categories": ["Other"],
+  "categories": ["Other", "Languages"],
   "license": "MIT",
   "private": true,
   "license": "MIT",
@@ -47,7 +47,22 @@
         "when": "editorTextFocus"
       }
     ],
-    "configuration": {}
+    "configuration": {
+      "type": "object",
+      "title": "Runner configuration",
+      "properties": {
+        "runner.extensionMap": {
+          "type": "object",
+          "default": {},
+          "description": "Specify file extension as key, specify execuable as value"
+        },
+        "runner.languageMap": {
+          "type": "object",
+          "default": {},
+          "description": "Specify language name as key, specify execuable as value"
+        }
+      }
+    }
   },
   "readmeFilename": "README.md",
   "bugs": {
