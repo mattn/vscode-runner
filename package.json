@@ -1,6 +1,6 @@
 {
   "name": "runner",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "mattn",
   "description": "Run various scripts.",
   "author": {
