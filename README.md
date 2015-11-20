@@ -2,6 +2,8 @@
 
 Run various scripts.
 
+![](https://raw.githubusercontent.com/mattn/vscode-runner/master/images/screenshot.gif)
+
 ## Usage
 
 Type CTRL-SHIFT-R on script files.
