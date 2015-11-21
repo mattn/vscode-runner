@@ -56,12 +56,13 @@ export function activate(ctx: vscode.ExtensionContext): void {
       vscode.window.showErrorMessage('Not found action for ' + languageId);
       return;
     }
-    fileName = path.relative(".", fileName);
+    var cwd = vscode.workspace.rootPath;
+    fileName = path.relative(cwd, fileName);
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show();
     var sh = win32 ? 'cmd' : 'sh';
     var shflag = win32 ? '/c' : '-c';
-    cp.execFile(sh, [shflag, action + ' ' + fileName], {}, (err, stdout, stderr) => {
+    cp.execFile(sh, [shflag, action + ' ' + fileName], {cwd: cwd}, (err, stdout, stderr) => {
       output.append(stdout.toString());
       output.append(stderr.toString());
     });
