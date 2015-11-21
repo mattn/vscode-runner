@@ -11,16 +11,19 @@ const defaultExtensionMap = {
 }
 
 const defaultLanguageMap = {
+  bat: "",
+  clojure: "clj",
   go: "go run",
-  perl: "perl",
-  perl6: "perl6",
-  ruby: "ruby",
-  python: "python",
-  php: "php",
-  shell: "bash",
-  typescript: "tsc",
   javascript: "node",
-  powershell: "powershell -noninteractive -noprofile -c -"
+  lua: "lua",
+  perl6: "perl6",
+  perl: "perl",
+  php: "php",
+  powershell: "powershell -noninteractive -noprofile -c -",
+  python: "python",
+  ruby: "ruby",
+  shell: "bash",
+  typescript: "tsc"
 };
 
 function getActionFor(fileName: string) {
@@ -48,8 +51,11 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var fileName = vscode.window.activeTextEditor.document.fileName;
     var languageId = vscode.window.activeTextEditor.document.languageId;
     var action = languageMap[languageId];
-	if (!action) action = getActionFor(fileName);
-    if (!action) return;
+    if (action == null) action = getActionFor(fileName);
+    if (action == null) {
+      vscode.window.showErrorMessage('Not found action for ' + languageId);
+      return;
+    }
     fileName = path.relative(".", fileName);
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show();
