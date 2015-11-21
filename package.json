@@ -10,7 +10,6 @@
   "categories": ["Other", "Languages"],
   "license": "MIT",
   "private": true,
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/mattn/vscode-runner"
