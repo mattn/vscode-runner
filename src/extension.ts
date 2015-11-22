@@ -42,6 +42,14 @@ function getActionFor(fileName: string) {
   return null;
 }
 
+function getActionFromShebang(): string {
+  var firstLine = vscode.window.activeTextEditor.document.lineAt(0).text;
+  if (firstLine.match(/^#!(.*)/)) {
+    return RegExp.$1;
+  }
+  return null;
+}
+
 export function activate(ctx: vscode.ExtensionContext): void {
   var languageMap = {};
   var userLanguageMap = vscode.workspace.getConfiguration('runner')['languageMap'] || {};
@@ -50,7 +58,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
     var fileName = vscode.window.activeTextEditor.document.fileName;
     var languageId = vscode.window.activeTextEditor.document.languageId;
-    var action = languageMap[languageId];
+    var action = getActionFromShebang();
+    if (action == null) action = languageMap[languageId];
     if (action == null) action = getActionFor(fileName);
     if (action == null) {
       vscode.window.showErrorMessage('Not found action for ' + languageId);
