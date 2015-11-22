@@ -26,8 +26,8 @@ const defaultLanguageMap = {
   typescript: "tsc"
 };
 
-function getActionFor(fileName: string) {
-  if (!fileName) return;
+function getActionFromFileName(fileName: string): string {
+  if (!fileName) return null;
   var extensionMap = {};
   var userExtensionMap = vscode.workspace.getConfiguration('runner')['extensionMap'] || {};
   for (var key in defaultExtensionMap) { extensionMap[key] = defaultExtensionMap[key]; }
@@ -43,6 +43,8 @@ function getActionFor(fileName: string) {
 }
 
 function getActionFromShebang(): string {
+  var ignoreShebang = vscode.workspace.getConfiguration('runner')['ignoreShebang'] || false;
+  if (ignoreShebang) return null;
   var firstLine = vscode.window.activeTextEditor.document.lineAt(0).text;
   if (firstLine.match(/^#!(.*)/)) {
     return RegExp.$1;
@@ -50,17 +52,22 @@ function getActionFromShebang(): string {
   return null;
 }
 
-export function activate(ctx: vscode.ExtensionContext): void {
+function getActionFromLanguageId(languageId: string): string {
   var languageMap = {};
   var userLanguageMap = vscode.workspace.getConfiguration('runner')['languageMap'] || {};
   for (var key in defaultLanguageMap) { languageMap[key] = defaultLanguageMap[key]; }
   for (var key in userLanguageMap) { languageMap[key] = userLanguageMap[key]; }
+  return languageMap[languageId];
+}
+
+export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
     var fileName = vscode.window.activeTextEditor.document.fileName;
     var languageId = vscode.window.activeTextEditor.document.languageId;
+
     var action = getActionFromShebang();
-    if (action == null) action = languageMap[languageId];
-    if (action == null) action = getActionFor(fileName);
+    if (action == null) action = getActionFromLanguageId(languageId);
+    if (action == null) action = getActionFromFileName(fileName);
     if (action == null) {
       vscode.window.showErrorMessage('Not found action for ' + languageId);
       return;
@@ -69,7 +76,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     fileName = path.relative(cwd, fileName);
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show();
-    var sh = win32 ? 'cmd' : 'sh';
+    var sh = win32 ? 'cmd' : '/bin/sh';
     var shflag = win32 ? '/c' : '-c';
     cp.execFile(sh, [shflag, action + ' ' + fileName], {cwd: cwd}, (err, stdout, stderr) => {
       output.append(stdout.toString());
