@@ -77,7 +77,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     if(cwd != null)
       fileName = path.relative(cwd, fileName);  
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
-    output.show();
+    output.show(vscode.ViewColumn.Two);
     var sh = win32 ? 'cmd' : '/bin/sh';
     var shflag = win32 ? '/c' : '-c';
     var args = document.isDirty || document.isUntitled ? [shflag, action] : [shflag, action + ' ' + fileName];
