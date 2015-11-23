@@ -82,6 +82,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var shflag = win32 ? '/c' : '-c';
     var args = document.isDirty || document.isUntitled ? [shflag, action] : [shflag, action + ' ' + fileName];
     var child = cp.spawn(sh, args, { cwd: cwd, detached: false });
+    var clearPreviousOutput = vscode.workspace.getConfiguration('runner')['clearPreviousOutput'] || true;
+    if(clearPreviousOutput)
+      output.clear()
     child.stderr.on('data', (data) => {
       output.append(data.toString());
     });
