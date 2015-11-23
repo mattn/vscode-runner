@@ -62,8 +62,9 @@ function getActionFromLanguageId(languageId: string): string {
 
 export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
-    var fileName = vscode.window.activeTextEditor.document.fileName;
-    var languageId = vscode.window.activeTextEditor.document.languageId;
+    var document = vscode.window.activeTextEditor.document;
+    var fileName = document.fileName;
+    var languageId = document.languageId;
 
     var action = getActionFromShebang();
     if (action == null) action = getActionFromLanguageId(languageId);
@@ -78,9 +79,23 @@ export function activate(ctx: vscode.ExtensionContext): void {
     output.show();
     var sh = win32 ? 'cmd' : '/bin/sh';
     var shflag = win32 ? '/c' : '-c';
-    cp.execFile(sh, [shflag, action + ' ' + fileName], {cwd: cwd}, (err, stdout, stderr) => {
-      output.append(stdout.toString());
-      output.append(stderr.toString());
+    var args = document.isDirty || document.isUntitled ? [shflag, action] : [shflag, action + ' ' + fileName];
+    var child = cp.spawn(sh, args, { cwd: cwd, detached: false });
+    child.stderr.on('data', (data) => {
+      output.append(data.toString());
     });
+    child.stdout.on('data', (data) => {
+      output.append(data.toString());
+    });
+    child.on('close', (code, signal) => {
+      if (signal)
+        output.append('Exited with signal ' + signal)
+      else if (code)
+        output.append('Exited with status ' + code)
+    });
+    if (document.isDirty || document.isUntitled) {
+      child.stdin.write(document.getText());
+    }
+    child.stdin.end();
   }));
 }
