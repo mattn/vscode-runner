@@ -83,16 +83,16 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var args = document.isDirty || document.isUntitled ? [shflag, action] : [shflag, action + ' ' + fileName];
     var child = cp.spawn(sh, args, { cwd: cwd, detached: false });
     child.stderr.on('data', (data) => {
-      output.append(data.toString());
+      output.appendLine(data.toString());
     });
     child.stdout.on('data', (data) => {
-      output.append(data.toString());
+      output.appendLine(data.toString());
     });
     child.on('close', (code, signal) => {
       if (signal)
-        output.append('Exited with signal ' + signal + "\n")
+        output.appendLine('Exited with signal ' + signal)
       else if (code)
-        output.append('Exited with status ' + code + "\n")
+        output.appendLine('Exited with status ' + code)
     });
     if (document.isDirty || document.isUntitled) {
       child.stdin.write(document.getText());
