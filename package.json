@@ -55,6 +55,11 @@
           "default": false,
           "description": "Ignore shebang line"
         },
+        "runner.clearPreviousOutput": {
+          "type": "bool",
+          "default": true,
+          "description": "Clear Previous Outputs"
+        },
         "runner.extensionMap": {
           "type": "object",
           "default": {},
