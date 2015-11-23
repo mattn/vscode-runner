@@ -74,7 +74,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
       return;
     }
     var cwd = vscode.workspace.rootPath;
-    fileName = path.relative(cwd, fileName);
+    if(cwd != null)
+      fileName = path.relative(cwd, fileName);  
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show();
     var sh = win32 ? 'cmd' : '/bin/sh';
