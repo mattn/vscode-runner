@@ -90,9 +90,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
     });
     child.on('close', (code, signal) => {
       if (signal)
-        output.append('Exited with signal ' + signal)
+        output.append('Exited with signal ' + signal + "\n")
       else if (code)
-        output.append('Exited with status ' + code)
+        output.append('Exited with status ' + code + "\n")
     });
     if (document.isDirty || document.isUntitled) {
       child.stdin.write(document.getText());
