@@ -62,7 +62,8 @@ function getActionFromLanguageId(languageId: string): string {
 
 export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
-    var document = vscode.window.activeTextEditor.document;
+    var editor = vscode.window.activeTextEditor;
+    var document = editor.document;
     var fileName = document.fileName;
     var languageId = document.languageId;
 
@@ -78,6 +79,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
       fileName = path.relative(cwd, fileName);  
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show(vscode.ViewColumn.Two);
+    editor.show()
     var sh = win32 ? 'cmd' : '/bin/sh';
     var shflag = win32 ? '/c' : '-c';
     var args = document.isDirty || document.isUntitled ? [shflag, action] : [shflag, action + ' ' + fileName];
