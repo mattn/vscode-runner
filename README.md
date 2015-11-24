@@ -20,9 +20,18 @@ Add entry into `runner.languageMap`, keys should be known type on Visual Studio 
   },
   "runner.extensionMap": {
     "foo": "/usr/bin/bar"
+  },
+  "runner.shebangMap": {
+    "^#!\\s*/usr/bin/python2": "python",
+    "^#!\\s*/usr/bin/env python": "python",
+    "^#!\\s*/usr/bin/python3": "python3",
+    "^#!\\s*/usr/bin/env python3": "python3"
   }
 }
 ```
+
+If want to clear previous output, set `"runner.clearPreviousOutput": true`.
+want to ignore shebang line, set "runner.ignoreShebang": true`.
 
 ## License
 

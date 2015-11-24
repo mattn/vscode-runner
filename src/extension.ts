@@ -46,13 +46,15 @@ function getActionFromShebang(): string {
   var ignoreShebang = vscode.workspace.getConfiguration('runner')['ignoreShebang'] || false;
   if (ignoreShebang) return null;
   var firstLine = vscode.window.activeTextEditor.document.lineAt(0).text;
-  if (firstLine.match(/^#!\s*(\S+)(\s+.*)?/)) {
-    var shebangMap = vscode.workspace.getConfiguration('runner')['shebangMap'] || {};
+  if (firstLine.match(/^#!\s*(.*)\s*$/)) {
     var cmd = RegExp.$1;
-    var args = RegExp.$2;
-    var found  = shebangMap[cmd];
-    if (found) return found + args;
-    return cmd + args;
+    var shebangMap = vscode.workspace.getConfiguration('runner')['shebangMap'] || {};
+    for (var key in shebangMap) {
+      try {
+        if (new RegExp(key).test(firstLine)) return shebangMap[key];
+      } catch(e) { }
+    }
+    return cmd;
   }
   return null;
 }
