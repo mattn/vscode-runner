@@ -69,6 +69,11 @@
           "type": "object",
           "default": {},
           "description": "Specify language name as key, specify execuable as value"
+        },
+        "runner.shebangMap": {
+          "type": "object",
+          "default": {},
+          "description": "Specify replacement of shebang line"
         }
       }
     }

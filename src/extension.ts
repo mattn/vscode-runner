@@ -46,8 +46,13 @@ function getActionFromShebang(): string {
   var ignoreShebang = vscode.workspace.getConfiguration('runner')['ignoreShebang'] || false;
   if (ignoreShebang) return null;
   var firstLine = vscode.window.activeTextEditor.document.lineAt(0).text;
-  if (firstLine.match(/^#!(.*)/)) {
-    return RegExp.$1;
+  if (firstLine.match(/^#!\s*(\S+)(\s+.*)?/)) {
+    var shebangMap = vscode.workspace.getConfiguration('runner')['shebangMap'] || {};
+    var cmd = RegExp.$1;
+    var args = RegExp.$2;
+    var found  = shebangMap[cmd];
+    if (found) return found + args;
+    return cmd + args;
   }
   return null;
 }
@@ -81,9 +86,11 @@ export function activate(ctx: vscode.ExtensionContext): void {
     output.show(vscode.ViewColumn.Two);
     editor.show()
     var sh = win32 ? 'cmd' : '/bin/sh';
-    var shflag = win32 ? '/c' : '-c';
+    var shflag = win32 ? '/s /c' : '-c';
     var args = document.isDirty || document.isUntitled ? [shflag, action] : [shflag, action + ' ' + fileName];
-    var child = cp.spawn(sh, args, { cwd: cwd, detached: false });
+    var opts = { cwd: cwd, detached: false };
+    if (win32) opts['windowsVerbatimArguments'] = true;
+    var child = cp.spawn(sh, args, opts);
     var clearPreviousOutput = vscode.workspace.getConfiguration('runner')['clearPreviousOutput'] || true;
     if(clearPreviousOutput)
       output.clear()
