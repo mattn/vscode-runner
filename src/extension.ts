@@ -88,10 +88,10 @@ export function activate(ctx: vscode.ExtensionContext): void {
     if(clearPreviousOutput)
       output.clear()
     child.stderr.on('data', (data) => {
-      output.append(data.toString());
+      output.appendLine(data.toString());
     });
     child.stdout.on('data', (data) => {
-      output.append(data.toString());
+      output.appendLine(data.toString());
     });
     child.on('close', (code, signal) => {
       if (signal)
