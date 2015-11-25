@@ -86,7 +86,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
       fileName = path.relative(cwd, fileName);  
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show(vscode.ViewColumn.Two);
-    editor.show()
+    setTimeout(() => {
+      vscode.window.showTextDocument(editor.document)
+    },50)
 	// TODO parse line and spawn command without shells. because it's not
 	// possible to get an error code of execute on windows.
     var sh = win32 ? 'cmd' : '/bin/sh';
