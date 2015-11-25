@@ -69,8 +69,7 @@ function getActionFromLanguageId(languageId: string): string {
 
 export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
-    var editor = vscode.window.activeTextEditor;
-    var document = editor.document;
+    var document = vscode.window.activeTextEditor.document;
     var fileName = document.fileName;
     var languageId = document.languageId;
 
@@ -87,7 +86,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show(vscode.ViewColumn.Two);
     setTimeout(() => {
-      vscode.window.showTextDocument(editor.document)
+      vscode.window.showTextDocument(document)
     },50)
 	// TODO parse line and spawn command without shells. because it's not
 	// possible to get an error code of execute on windows.
