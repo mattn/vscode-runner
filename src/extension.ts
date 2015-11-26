@@ -88,8 +88,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
     setTimeout(() => {
       vscode.window.showTextDocument(document)
     },50)
-	// TODO parse line and spawn command without shells. because it's not
-	// possible to get an error code of execute on windows.
+    // TODO parse line and spawn command without shells. because it's not
+    // possible to get an error code of execute on windows.
     var sh = win32 ? 'cmd' : '/bin/sh';
     var fromInput = document.isDirty || document.isUntitled;
     var args = win32 ?
