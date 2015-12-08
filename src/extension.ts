@@ -7,7 +7,8 @@ import path = require('path');
 const win32 = process.platform === 'win32';
 
 const defaultExtensionMap = {
-  coffee: "coffee"
+  coffee: "coffee",
+  r: "r -q --vanilla -f"
 }
 
 const defaultLanguageMap = {
