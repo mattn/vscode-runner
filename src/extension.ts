@@ -7,8 +7,7 @@ import path = require('path');
 const win32 = process.platform === 'win32';
 
 const defaultExtensionMap = {
-  coffee: "coffee",
-  r: "r -q --vanilla -f"
+  coffee: "coffee"
 }
 
 const defaultLanguageMap = {
@@ -22,6 +21,7 @@ const defaultLanguageMap = {
   php: "php",
   powershell: "powershell -noninteractive -noprofile -c -",
   python: "python",
+  r: "r -q --vanilla -f",
   ruby: "ruby",
   shell: "bash",
   typescript: "tsc"
