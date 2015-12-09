@@ -84,6 +84,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var cwd = vscode.workspace.rootPath;
     if(cwd != null)
       fileName = path.relative(cwd, fileName);  
+    fileName = win32 ? fileName : fileName.replace(/ /g, "\\ ");
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show(vscode.ViewColumn.Two);
     setTimeout(() => {
