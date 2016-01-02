@@ -21,7 +21,7 @@ const defaultLanguageMap = {
   php: "php",
   powershell: "powershell -noninteractive -noprofile -c -",
   python: "python",
-  r: "r -q --vanilla -f",
+  r: "Rscript",
   ruby: "ruby",
   shell: "bash",
   typescript: "tsc"
