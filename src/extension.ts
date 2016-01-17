@@ -101,7 +101,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var opts = { cwd: cwd, detached: false };
     if (win32) opts['windowsVerbatimArguments'] = true;
     var child = cp.spawn(sh, args, opts);
-    var clearPreviousOutput = vscode.workspace.getConfiguration('runner')['clearPreviousOutput'] || true;
+    var clearPreviousOutput = vscode.workspace.getConfiguration('runner')['clearPreviousOutput'] && true;
     if(clearPreviousOutput)
       output.clear()
     child.stderr.on('data', (data) => {
