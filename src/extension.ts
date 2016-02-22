@@ -69,7 +69,17 @@ function getActionFromLanguageId(languageId: string): string {
 }
 
 export function activate(ctx: vscode.ExtensionContext): void {
-  ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner', () => {
+  var currentProcess : cp.ChildProcess;
+
+  ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner.stop', () => {
+    if (currentProcess != null) {
+      if (win32)
+        cp.spawn("taskkill", ["/pid", currentProcess.pid.toString(), '/f', '/t']);
+      else
+        currentProcess.kill();
+    }
+  }));
+  ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner.start', () => {
     var document = vscode.window.activeTextEditor.document;
     var fileName = document.fileName;
     var languageId = document.languageId;
@@ -101,6 +111,8 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var opts = { cwd: cwd, detached: false };
     if (win32) opts['windowsVerbatimArguments'] = true;
     var child = cp.spawn(sh, args, opts);
+    currentProcess = child;
+
     var clearPreviousOutput = vscode.workspace.getConfiguration('runner')['clearPreviousOutput'] && true;
     if(clearPreviousOutput)
       output.clear()
@@ -115,6 +127,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
         output.appendLine('Exited with signal ' + signal)
       else if (code)
         output.appendLine('Exited with status ' + code)
+      currentProcess = null;
     });
     if (fromInput) {
       child.stdin.write(document.getText());

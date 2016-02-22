@@ -1,6 +1,6 @@
 {
   "name": "Runner",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "publisher": "mattn",
   "description": "Run various scripts.",
   "author": {
@@ -29,7 +29,7 @@
   "main": "./out/extension",
   "extensionDependencies": [],
   "activationEvents": [
-    "onCommand:extension.runner"
+    "onCommand:extension.runner.start"
   ],
   "contributes": {
     "commands": [
@@ -42,8 +42,12 @@
     "keybindings": [
       {
         "key": "Ctrl+Shift+r",
-        "command": "extension.runner",
+        "command": "extension.runner.start",
         "when": "editorTextFocus"
+      },
+      {
+        "key": "Ctrl+Shift+t",
+        "command": "extension.runner.stop"
       }
     ],
     "configuration": {
