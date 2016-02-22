@@ -7,24 +7,24 @@ import path = require('path');
 const win32 = process.platform === 'win32';
 
 const defaultExtensionMap = {
-  coffee: "coffee"
+  coffee: 'coffee'
 }
 
 const defaultLanguageMap = {
-  bat: "",
-  clojure: "clj",
-  go: "go run",
-  javascript: "node",
-  lua: "lua",
-  perl6: "perl6",
-  perl: "perl",
-  php: "php",
-  powershell: "powershell -noninteractive -noprofile -c -",
-  python: "python",
-  r: "Rscript",
-  ruby: "ruby",
-  shell: "bash",
-  typescript: "tsc"
+  bat: '',
+  clojure: 'clj',
+  go: 'go run',
+  javascript: 'node',
+  lua: 'lua',
+  perl6: 'perl6',
+  perl: 'perl',
+  php: 'php',
+  powershell: 'powershell -noninteractive -noprofile -c -',
+  python: 'python',
+  r: 'Rscript',
+  ruby: 'ruby',
+  shell: 'bash',
+  typescript: 'tsc'
 };
 
 function getActionFromFileName(fileName: string): string {
@@ -74,9 +74,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner.stop', () => {
     if (currentProcess != null) {
       if (win32)
-        cp.spawn("taskkill", ["/pid", currentProcess.pid.toString(), '/f', '/t']);
+        cp.spawn('taskkill', ['/pid', currentProcess.pid.toString(), '/f', '/t']);
       else
-        currentProcess.kill();
+        currentProcess.kill('SIGINT');
     }
   }));
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner.start', () => {
@@ -94,7 +94,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var cwd = vscode.workspace.rootPath;
     if(cwd != null)
       fileName = path.relative(cwd, fileName);
-    fileName = win32 ? fileName : fileName.replace(/ /g, "\\ ");
+    fileName = win32 ? fileName : fileName.replace(/ /g, '\\ ');
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show(vscode.ViewColumn.Two);
     setTimeout(() => {

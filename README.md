@@ -33,6 +33,8 @@ Add entry into `runner.languageMap`, keys should be known type on Visual Studio 
 If want to clear previous output, set `"runner.clearPreviousOutput": true`.
 want to ignore shebang line, set "runner.ignoreShebang": true`.
 
+Type CTRL-SHIFT-T to stop the process.
+
 ## License
 
 MIT
