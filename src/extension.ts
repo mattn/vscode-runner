@@ -105,9 +105,9 @@ export function activate(ctx: vscode.ExtensionContext): void {
     var sh = win32 ? 'cmd' : '/bin/sh';
     var fromInput = document.isDirty || document.isUntitled;
     var args = win32 ?
-      (fromInput ? ['/s', '/c', action] : ['/s', '/c', action + ' ' + fileName])
+      (fromInput ? ['/s', '/c', action] : ['/s', '/c', action + ' ' + '\"' + fileName + '\"'])
     :
-      (fromInput ? ['-c', action] : ['-c', action + ' ' + fileName]);
+      (fromInput ? ['-c', action] : ['-c', action + ' ' + '\"' + fileName + '\"']);
     var opts = { cwd: cwd, detached: false };
     if (win32) opts['windowsVerbatimArguments'] = true;
     var child = cp.spawn(sh, args, opts);
