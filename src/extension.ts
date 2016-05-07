@@ -76,7 +76,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
       if (win32)
         cp.spawn('taskkill', ['/pid', currentProcess.pid.toString(), '/f', '/t']);
       else
-        currentProcess.kill('SIGINT');
+        currentProcess.kill();
     }
   }));
   ctx.subscriptions.push(vscode.commands.registerCommand('extension.runner.start', () => {

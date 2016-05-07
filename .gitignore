@@ -27,3 +27,6 @@ node_modules
 out
 .vscode
 *.vsix
+
+# Compiled typescript
+src/extension.js
