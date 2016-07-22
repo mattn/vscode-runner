@@ -55,12 +55,12 @@
       "title": "Runner configuration",
       "properties": {
         "runner.ignoreShebang": {
-          "type": "bool",
+          "type": "boolean",
           "default": false,
           "description": "Ignore shebang line"
         },
         "runner.clearPreviousOutput": {
-          "type": "bool",
+          "type": "boolean",
           "default": true,
           "description": "Clear Previous Outputs"
         },
