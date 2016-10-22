@@ -20,7 +20,7 @@ const defaultLanguageMap = {
   perl: 'perl',
   php: 'php',
   powershell: 'powershell -noninteractive -noprofile -c -',
-  python: 'python',
+  python: 'python -u',
   r: 'Rscript',
   ruby: 'ruby',
   shell: 'bash',
