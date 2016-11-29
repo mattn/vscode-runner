@@ -16,6 +16,7 @@ const defaultLanguageMap = {
   go: 'go run',
   javascript: 'node',
   lua: 'lua',
+  nsis: 'makensis',
   perl6: 'perl6',
   perl: 'perl',
   php: 'php',
