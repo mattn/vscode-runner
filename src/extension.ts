@@ -95,6 +95,15 @@ export function activate(ctx: vscode.ExtensionContext): void {
     if(cwd != null)
       fileName = path.relative(cwd, fileName);
     fileName = win32 ? fileName : fileName.replace(/ /g, '\\ ');
+    var fromInput = document.isDirty || document.isUntitled;
+
+    fileName = '\"' + fileName + '\"'
+    if (action.indexOf('$(file)') != -1) {
+      action = action.replace(/\$\(file\)/g, fileName);
+    } else if (!fromInput) {
+      action += ' ' + fileName;
+    }
+
     var output = vscode.window.createOutputChannel('Runner: ' + action + ' ' + fileName);
     output.show(vscode.ViewColumn.Two);
     setTimeout(() => {
@@ -103,11 +112,7 @@ export function activate(ctx: vscode.ExtensionContext): void {
     // TODO parse line and spawn command without shells. because it's not
     // possible to get an error code of execute on windows.
     var sh = win32 ? 'cmd' : '/bin/sh';
-    var fromInput = document.isDirty || document.isUntitled;
-    var args = win32 ?
-      (fromInput ? ['/s', '/c', action] : ['/s', '/c', action + ' ' + '\"' + fileName + '\"'])
-    :
-      (fromInput ? ['-c', action] : ['-c', action + ' ' + '\"' + fileName + '\"']);
+    var args = win32 ? ['/s', '/c', action] : ['-c', action];
     var opts = { cwd: cwd, detached: false };
     if (win32) opts['windowsVerbatimArguments'] = true;
     var child = cp.spawn(sh, args, opts);
