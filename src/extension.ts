@@ -13,6 +13,7 @@ const defaultExtensionMap = {
 const defaultLanguageMap = {
   bat: '',
   clojure: 'clj',
+  crystal: 'crystal',
   go: 'go run',
   javascript: 'node',
   lua: 'lua',
