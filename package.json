@@ -1,13 +1,16 @@
 {
   "name": "Runner",
-  "version": "0.1.14",
+  "version": "0.1.16",
   "publisher": "mattn",
   "description": "Run various scripts.",
   "author": {
     "name": "Yasuhiro Matsumoto (a.k.a mattn)"
   },
   "icon": "images/runner.png",
-  "categories": ["Other", "Languages"],
+  "categories": [
+    "Other",
+    "Languages"
+  ],
   "license": "MIT",
   "private": true,
   "repository": {
